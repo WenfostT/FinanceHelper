@@ -1408,6 +1408,10 @@ function main()
     lastMoney = getPlayerMoney()
     loadTransactions()
     lua_thread.create(autoSave)
+    
+    checkForUpdates()
+
+    sampAddChatMessage("Я обновился",2)
     sampAddChatMessage("[FinanceHelper 3.0] Скрипт загружен, гангстер! Версия: " .. SCRIPT_VERSION, 0x27AE60)
     
     sampAddChatMessage("[FinanceHelper] Скрипт загружен", 0x27AE60)
