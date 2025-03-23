@@ -179,7 +179,7 @@ local telegram = require("lib.telegram")
 
 
 local SCRIPT_VERSION = "1.1" -- Укажи текущую версию
-local UPDATE_URL = "https://raw.githubusercontent.com/WenfostT/FinanceHelper/main/FinanceHelper.lua" -- Ссылка на твой скрипт на GitHub
+local UPDATE_URL = "https://raw.githubusercontent.com/WenfostT/FinanceHelper/refs/heads/main/FinanceHelper.lua" -- Ссылка на твой скрипт на GitHub
 local VERSION_URL = "https://raw.githubusercontent.com/WenfostT/FinanceHelper/refs/heads/main/version.txt" -- Ссылка на файл с версией
 local TEMP_FILE = getWorkingDirectory() .. "/FinanceHelper_temp.lua" -- Временный файл для скачивания
 
@@ -201,7 +201,6 @@ function checkForUpdates()
     -- Сравниваем версии
     if remoteVersion > SCRIPT_VERSION then
         sampAddChatMessage("[FinanceHelper] Обнаружена новая версия: " .. remoteVersion .. "! Качаю, братишка!", 0x27AE60)
-        audio.playSound("update.wav") -- Звук обновления (добавь файл)
 
         -- Скачиваем новый скрипт
         local scriptBody, scriptCode = https.request(UPDATE_URL)
@@ -222,9 +221,7 @@ function checkForUpdates()
             os.rename(TEMP_FILE, currentFilePath) -- Переименовываем новый
 
             sampAddChatMessage("[FinanceHelper] Обновление до " .. remoteVersion .. " установлено! Перезагружаю, гангстер!", 0x27AE60)
-            audio.playSound("achievement.wav")
-            telegram.setConfig(u8:decode(ffi.string(ChatIdBot_input)), u8:decode(ffi.string(tokenBot_input)))
-            telegram.sendMessage(string.format("**Братишка, твой Finance Helper обновился до %s!**\n🔥 Перезапусти игру, чтобы зажечь!", remoteVersion))
+        
 
             -- Перезапуск скрипта (опционально, требует перезапуска MoonLoader)
             thisScript():reload()
@@ -1411,6 +1408,7 @@ function main()
     lastMoney = getPlayerMoney()
     loadTransactions()
     lua_thread.create(autoSave)
+    sampAddChatMessage("[FinanceHelper 3.0] Скрипт загружен, гангстер! Версия: " .. SCRIPT_VERSION, 0x27AE60)
     
     sampAddChatMessage("[FinanceHelper] Скрипт загружен", 0x27AE60)
     while true do
